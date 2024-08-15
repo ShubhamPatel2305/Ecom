@@ -1,10 +1,12 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { ProductContext } from '../contexts/ProductContext';
 
 const Header = () => {
   const { currency, convertCurrency } = useContext(ProductContext);
   const [isTopMenuOpen, setIsTopMenuOpen] = useState(false);
   const [isMainMenuOpen, setIsMainMenuOpen] = useState(false);
+  const [opacity, setOpacity] = useState(1);
+  const [prevScrollPos, setPrevScrollPos] = useState(0);
 
   const toggleTopMenu = () => {
     setIsTopMenuOpen(!isTopMenuOpen);
@@ -18,10 +20,31 @@ const Header = () => {
     convertCurrency(e.target.value);
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollPos = window.pageYOffset || document.documentElement.scrollTop;
+      const maxScroll = 200; // Maximum scroll distance for full fade-out
+      const isScrollingUp = prevScrollPos > currentScrollPos;
+
+      const newOpacity = isScrollingUp || currentScrollPos <= maxScroll
+        ? 1
+        : 1 - Math.min(currentScrollPos / maxScroll, 1);
+
+      setOpacity(newOpacity);
+      setPrevScrollPos(currentScrollPos);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [prevScrollPos]);
+
   return (
-    <div className='bg-gray-100'>
+    <div style={{ opacity, transition: 'opacity 0.3s ease-in-out' }} className='bg-gray-100 fixed top-0 w-full z-10'>
       {/* Top Navbar */}
-      <div className="bg-gray-200 text-sm">
+      <div className="bg-white shadow-md py-1 text-sm">
         <div className="container mx-auto flex justify-between items-center py-2 px-4">
           <div className="flex space-x-4">
             {/* Top Navbar Dropdown for Mobile/Tablet */}
@@ -76,7 +99,7 @@ const Header = () => {
       </div>
 
       {/* Main Navbar */}
-      <header className="bg-white shadow-md py-4">
+      <header className="bg-white shadow-md py-1">
         <div className="container mx-auto flex justify-between items-center px-4">
           <div className="text-2xl font-bold text-blue-600">
             <a href="#">Planet</a>

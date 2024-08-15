@@ -18,11 +18,28 @@ const ProductProvider = ({ children }) => {
         currency: 'USD',
       }));
 
-      setProducts(initializedProducts);
+      const productsWithFeatures = assignFeatures(initializedProducts);
+      setProducts(productsWithFeatures);
     };
 
     fetchProducts();
   }, []);
+
+  const assignFeatures = (products) => {
+    return products.map((product, index) => {
+      const randomNum = index % 6;
+      switch(randomNum) {
+        case 0:
+          return { ...product, isNew: true };
+        case 1:
+          return { ...product, isHot: true };
+        case 2:
+          return { ...product, discount: Math.floor(Math.random() * 21) + 10 }; // Assign a random discount between 10% and 30%
+        default:
+          return product; // No feature (null)
+      }
+    });
+  };
 
   const conversionRates = {
     USD: 1,
