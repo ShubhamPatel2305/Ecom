@@ -18,8 +18,8 @@ const App = () => {
       <div className="bg-gray-200 text-sm">
         <div className="container mx-auto flex justify-between items-center py-2 px-4">
           <div className="flex space-x-4">
-            {/* Top Navbar Dropdown for Mobile/Tablet */}
-            <div className="md:hidden">
+            {/* Top Navbar Dropdown for Tablet/Large Devices */}
+            <div className="lg:hidden">
               <button onClick={toggleTopMenu} className="text-gray-600 hover:text-gray-800 focus:outline-none">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
@@ -27,7 +27,7 @@ const App = () => {
               </button>
             </div>
             {/* Top Navbar Links */}
-            <div className={`space-x-4 hidden md:flex`}>
+            <div className={`space-x-4 hidden lg:flex`}>
               <a href="#" className="text-gray-600 hover:text-gray-800">About Us</a>
               <a href="#" className="text-gray-600 hover:text-gray-800">Order Tracking</a>
               <a href="#" className="text-gray-600 hover:text-gray-800">Contact Us</a>
@@ -50,8 +50,8 @@ const App = () => {
             </div>
           </div>
         </div>
-        {/* Dropdown Menu for Top Navbar in Mobile/Tablet View */}
-        <div className={`md:hidden ${isTopMenuOpen ? 'block' : 'hidden'}`}>
+        {/* Dropdown Menu for Top Navbar in Tablet/Large Devices View */}
+        <div className={`lg:hidden ${isTopMenuOpen ? 'block' : 'hidden'}`}>
           <nav className="px-4 py-4 space-y-1 bg-gray-100">
             <a href="#" className="block text-gray-700 hover:text-blue-600">About Us</a>
             <a href="#" className="block text-gray-700 hover:text-blue-600">Order Tracking</a>
@@ -68,7 +68,7 @@ const App = () => {
             <a href="#">Planet</a>
           </div>
           {/* Hamburger Menu Icon for Main Navbar */}
-          <div className="md:hidden">
+          <div className="lg:hidden">
             <button onClick={toggleMainMenu} className="text-gray-700 hover:text-blue-600 focus:outline-none">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
@@ -76,15 +76,15 @@ const App = () => {
             </button>
           </div>
           {/* Main Navigation Links */}
-          <nav className={`space-x-6 ${isMainMenuOpen ? 'block' : 'hidden'} md:flex`}>
-            <a href="#" className="text-gray-700 hover:text-blue-600 block md:inline-block">Home</a>
-            <a href="#" className="text-gray-700 hover:text-blue-600 block md:inline-block">Shop</a>
-            <a href="#" className="text-gray-700 hover:text-blue-600 block md:inline-block">Products</a>
-            <a href="#" className="text-gray-700 hover:text-blue-600 block md:inline-block">Accessories</a>
-            <a href="#" className="text-gray-700 hover:text-blue-600 block md:inline-block">Contact</a>
+          <nav className={`space-x-6 ${isMainMenuOpen ? 'block' : 'hidden'} lg:flex`}>
+            <a href="#" className="text-gray-700 hover:text-blue-600 block lg:inline-block">Home</a>
+            <a href="#" className="text-gray-700 hover:text-blue-600 block lg:inline-block">Shop</a>
+            <a href="#" className="text-gray-700 hover:text-blue-600 block lg:inline-block">Products</a>
+            <a href="#" className="text-gray-700 hover:text-blue-600 block lg:inline-block">Accessories</a>
+            <a href="#" className="text-gray-700 hover:text-blue-600 block lg:inline-block">Contact</a>
           </nav>
           <div className="space-x-6 flex items-center">
-            <a href="#" className="text-gray-700 hover:text-blue-600 hidden md:inline-block">Need Help? +001 123 456 789</a>
+            <a href="#" className="text-gray-700 hover:text-blue-600 hidden lg:inline-block">Need Help? +001 123 456 789</a>
             <div className="flex items-center space-x-4">
               <a href="#" className="text-gray-700 hover:text-blue-600">
                 <i className="far fa-heart"></i>
@@ -96,8 +96,8 @@ const App = () => {
             </div>
           </div>
         </div>
-        {/* Dropdown Menu for Main Navbar in Mobile/Tablet View */}
-        <div className={`md:hidden ${isMainMenuOpen ? 'block' : 'hidden'}`}>
+        {/* Dropdown Menu for Main Navbar in Tablet/Large Devices View */}
+        <div className={`lg:hidden ${isMainMenuOpen ? 'block' : 'hidden'}`}>
           <nav className="px-4 py-4 space-y-1 bg-gray-100">
             <a href="#" className="block text-gray-700 hover:text-blue-600">Home</a>
             <a href="#" className="block text-gray-700 hover:text-blue-600">Shop</a>
@@ -110,7 +110,7 @@ const App = () => {
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-10">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="col-span-2 bg-gray-200 p-8 flex items-center justify-center">
             <div className="text-center">
               <h1 className="text-4xl font-bold text-gray-800 mb-4">Mega Sale Up To 50% Off For All</h1>
