@@ -1,6 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const App = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     <div className="bg-gray-100">
       {/* Top Navbar */}
@@ -36,15 +42,24 @@ const App = () => {
           <div className="text-2xl font-bold text-blue-600">
             <a href="#">Planet</a>
           </div>
-          <nav className="space-x-6 hidden md:flex">
-            <a href="#" className="text-gray-700 hover:text-blue-600">Home</a>
-            <a href="#" className="text-gray-700 hover:text-blue-600">Shop</a>
-            <a href="#" className="text-gray-700 hover:text-blue-600">Products</a>
-            <a href="#" className="text-gray-700 hover:text-blue-600">Accessories</a>
-            <a href="#" className="text-gray-700 hover:text-blue-600">Contact</a>
+          {/* Hamburger Menu Icon */}
+          <div className="md:hidden">
+            <button onClick={toggleMenu} className="text-gray-700 hover:text-blue-600 focus:outline-none">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
+              </svg>
+            </button>
+          </div>
+          {/* Main Navigation Links */}
+          <nav className={`space-x-6 ${isOpen ? 'block' : 'hidden'} md:flex`}>
+            <a href="#" className="text-gray-700 hover:text-blue-600 block md:inline-block">Home</a>
+            <a href="#" className="text-gray-700 hover:text-blue-600 block md:inline-block">Shop</a>
+            <a href="#" className="text-gray-700 hover:text-blue-600 block md:inline-block">Products</a>
+            <a href="#" className="text-gray-700 hover:text-blue-600 block md:inline-block">Accessories</a>
+            <a href="#" className="text-gray-700 hover:text-blue-600 block md:inline-block">Contact</a>
           </nav>
           <div className="space-x-6 flex items-center">
-            <a href="#" className="text-gray-700 hover:text-blue-600">Need Help? +001 123 456 789</a>
+            <a href="#" className="text-gray-700 hover:text-blue-600 hidden md:inline-block">Need Help? +001 123 456 789</a>
             <div className="flex items-center space-x-4">
               <a href="#" className="text-gray-700 hover:text-blue-600">
                 <i className="far fa-heart"></i>
@@ -55,6 +70,16 @@ const App = () => {
               </a>
             </div>
           </div>
+        </div>
+        {/* Dropdown Menu for Mobile */}
+        <div className={`md:hidden ${isOpen ? 'block' : 'hidden'}`}>
+          <nav className="px-4 py-4 space-y-1 bg-gray-100">
+            <a href="#" className="block text-gray-700 hover:text-blue-600">Home</a>
+            <a href="#" className="block text-gray-700 hover:text-blue-600">Shop</a>
+            <a href="#" className="block text-gray-700 hover:text-blue-600">Products</a>
+            <a href="#" className="block text-gray-700 hover:text-blue-600">Accessories</a>
+            <a href="#" className="block text-gray-700 hover:text-blue-600">Contact</a>
+          </nav>
         </div>
       </header>
 
