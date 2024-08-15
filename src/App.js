@@ -12,15 +12,15 @@ import Header from './components/Header';
 import CartItem from './components/CartItem'; 
 
 const App = () => {
-  return <div className='overflow-hidden'>react
+  return <div className='overflow-hidden'>
     <Router>
       <Header />
-      <Sidebar />
+      <Hero />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/product/:id' element={<ProductDetails />} />
-        <Route path='/cart' element={<CartItem />} />
       </Routes>
+      <Sidebar />
       <Footer />
     </Router>
   </div>;
