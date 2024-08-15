@@ -17,7 +17,6 @@ const App = () => {
     <Router>
       <Header />
       <Hero />
-      <CategorySection />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/product/:id' element={<ProductDetails />} />
