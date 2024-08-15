@@ -10,12 +10,14 @@ import Hero from './components/Hero';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import CartItem from './components/CartItem'; 
+import CategorySection from './components/CategorySection';
 
 const App = () => {
   return <div className='overflow-hidden'>
     <Router>
       <Header />
       <Hero />
+      <CategorySection />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/product/:id' element={<ProductDetails />} />

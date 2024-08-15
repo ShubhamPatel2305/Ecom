@@ -1,4 +1,5 @@
 import React,{useState} from 'react';
+import Home from '../pages/Home';
 
   
 const Header = () => {
@@ -86,7 +87,7 @@ const Header = () => {
           <nav className="hidden lg:flex space-x-6 ml-auto">
             <a href="#" className="text-gray-700 hover:text-blue-600">Home</a>
             <a href="#" className="text-gray-700 hover:text-blue-600">Shop</a>
-            <a href="#" className="text-gray-700 hover:text-blue-600">Products</a>
+            <a href='#' className="text-gray-700 hover:text-blue-600">Products</a>
             <a href="#" className="text-gray-700 hover:text-blue-600">Accessories</a>
             <a href="#" className="text-gray-700 hover:text-blue-600">Contact</a>
           </nav>
