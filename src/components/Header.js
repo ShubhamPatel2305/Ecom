@@ -1,10 +1,8 @@
-import React,{useState} from 'react';
-import Home from '../pages/Home';
+import React, { useState, useContext } from 'react';
+import { ProductContext } from '../contexts/ProductContext';
 
-  
 const Header = () => {
-
-
+  const { currency, convertCurrency } = useContext(ProductContext);
   const [isTopMenuOpen, setIsTopMenuOpen] = useState(false);
   const [isMainMenuOpen, setIsMainMenuOpen] = useState(false);
 
@@ -16,10 +14,14 @@ const Header = () => {
     setIsMainMenuOpen(!isMainMenuOpen);
   };
 
+  const handleCurrencyChange = (e) => {
+    convertCurrency(e.target.value);
+  };
 
-  return <div className='bg-gray-100'>
-    {/* Top Navbar */}
-    <div className="bg-gray-200 text-sm">
+  return (
+    <div className='bg-gray-100'>
+      {/* Top Navbar */}
+      <div className="bg-gray-200 text-sm">
         <div className="container mx-auto flex justify-between items-center py-2 px-4">
           <div className="flex space-x-4">
             {/* Top Navbar Dropdown for Mobile/Tablet */}
@@ -46,10 +48,14 @@ const Header = () => {
               </select>
             </div>
             <div className="relative">
-              <select className="bg-transparent text-gray-600 hover:text-gray-800 focus:outline-none">
-                <option value="usd">USD</option>
-                <option value="eur">EUR</option>
-                <option value="inr">INR</option>
+              <select
+                value={currency}
+                onChange={handleCurrencyChange}
+                className="bg-transparent text-gray-600 hover:text-gray-800 focus:outline-none"
+              >
+                <option value="USD">USD</option>
+                <option value="EUR">EUR</option>
+                <option value="INR">INR</option>
               </select>
             </div>
           </div>
@@ -80,7 +86,7 @@ const Header = () => {
             <button onClick={toggleMainMenu} className="text-gray-700 hover:text-blue-600 focus:outline-none">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
-              </svg>
+                </svg>
             </button>
           </div>
           {/* Main Navigation Links (Hidden on Mobile/Tablet) */}
@@ -91,18 +97,6 @@ const Header = () => {
             <a href="#" className="text-gray-700 hover:text-blue-600">Accessories</a>
             <a href="#" className="text-gray-700 hover:text-blue-600">Contact</a>
           </nav>
-          {/* <div className="space-x-6 flex items-center ml-auto lg:ml-0">
-            <a href="#" className="text-gray-700 hover:text-blue-600 hidden lg:inline-block">Need Help? +001 123 456 789</a>
-            <div className="flex items-center space-x-4">
-              <a href="#" className="text-gray-700 hover:text-blue-600">
-                <i className="far fa-heart"></i>
-              </a>
-              <a href="#" className="relative">
-                <i className="far fa-shopping-cart text-gray-700 hover:text-blue-600"></i>
-                <span className="absolute -top-1 -right-2 bg-blue-600 text-white text-xs rounded-full px-1">1</span>
-              </a>
-            </div>
-          </div> */}
         </div>
         {/* Dropdown Menu for Main Navbar on Mobile/Tablet */}
         <div
@@ -119,7 +113,8 @@ const Header = () => {
           </nav>
         </div>
       </header>
-  </div>
+    </div>
+  );
 };
 
 export default Header;

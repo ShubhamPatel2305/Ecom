@@ -4,40 +4,26 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 
 const Home = () => {
-  const { products } = useContext(ProductContext);
+  const { products, currency } = useContext(ProductContext);
 
   // Get only men's and women's clothing category and jewelry
   const filteredProducts = products.filter(
     (product) => product.category === "men's clothing" || product.category === "women's clothing" || product.category === 'jewelery'
   );
 
-  // Function to generate a random discount between 10% and 30%
-  const getRandomDiscount = () => {
-    return Math.floor(Math.random() * 21) + 10; // Generates a random number between 10 and 30
-  };
-
-  // Function to assign features randomly in a 1:1:1:3 proportion
-  const assignFeatures = (product, index) => {
-    const randomNum = index % 6;
-    switch(randomNum) {
-      case 0:
-        return { ...product, isNew: true };
-      case 1:
-        return { ...product, isHot: true };
-      case 2:
-        return { ...product, discount: getRandomDiscount() }; // Assigning a random discount between 10% and 30%
-      default:
-        return product; // No feature (null)
+  const formatPrice = (price) => {
+    if (currency === 'INR') {
+      return new Intl.NumberFormat('en-IN', { style: 'currency', currency, minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(price);
+    } else {
+      return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(price);
     }
   };
-
-  // Assign features to each product
-  const productsWithFeatures = filteredProducts.map((product, index) => assignFeatures(product, index));
+  
 
   return (
     <div className='container mx-auto'>
       <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
-        {productsWithFeatures.map((product) => (
+        {filteredProducts.map((product) => (
           <div key={product.id} className='border bg-white border-gray-200 rounded-lg overflow-hidden shadow-md relative flex flex-col justify-between'>
             {/* Badges */}
             {product.isNew && (
@@ -61,9 +47,9 @@ const Home = () => {
             <div className='p-4 flex-grow flex flex-col justify-between'>
               <div>
                 <h2 className='font-bold text-lg mb-2'>{product.title}</h2>
-                <p className='text-gray-700 mb-2'>${product.price}
+                <p className='text-gray-700 mb-2'>{formatPrice(product.price)}
                   {product.originalPrice && (
-                    <span className='line-through text-gray-500 ml-2'>${product.originalPrice}</span>
+                    <span className='line-through text-gray-500 ml-2'>{formatPrice(product.originalPrice)}</span>
                   )}
                 </p>
               </div>
@@ -82,4 +68,3 @@ const Home = () => {
 };
 
 export default Home;
-  
