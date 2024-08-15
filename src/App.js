@@ -3,7 +3,34 @@ import React from 'react';
 const App = () => {
   return (
     <div className="bg-gray-100">
-      {/* Header */}
+      {/* Top Navbar */}
+      <div className="bg-gray-200 text-sm">
+        <div className="container mx-auto flex justify-between items-center py-2 px-4">
+          <div className="flex space-x-4">
+            <a href="#" className="text-gray-600 hover:text-gray-800">About Us</a>
+            <a href="#" className="text-gray-600 hover:text-gray-800">Order Tracking</a>
+            <a href="#" className="text-gray-600 hover:text-gray-800">Contact Us</a>
+            <a href="#" className="text-gray-600 hover:text-gray-800">FAQs</a>
+          </div>
+          <div className="flex space-x-4 items-center">
+            <div className="relative">
+              <select className="bg-transparent text-gray-600 hover:text-gray-800 focus:outline-none">
+                <option value="en">English</option>
+                <option value="es">Español</option>
+              </select>
+            </div>
+            <div className="relative">
+              <select className="bg-transparent text-gray-600 hover:text-gray-800 focus:outline-none">
+                <option value="usd">USD</option>
+                <option value="eur">EUR</option>
+                <option value="inr">INR</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Navbar */}
       <header className="bg-white shadow-md py-4">
         <div className="container mx-auto flex justify-between items-center px-4">
           <div className="text-2xl font-bold text-blue-600">
