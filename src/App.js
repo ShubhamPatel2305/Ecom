@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
 
 const App = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isTopMenuOpen, setIsTopMenuOpen] = useState(false);
+  const [isMainMenuOpen, setIsMainMenuOpen] = useState(false);
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
+  const toggleTopMenu = () => {
+    setIsTopMenuOpen(!isTopMenuOpen);
+  };
+
+  const toggleMainMenu = () => {
+    setIsMainMenuOpen(!isMainMenuOpen);
   };
 
   return (
@@ -13,10 +18,21 @@ const App = () => {
       <div className="bg-gray-200 text-sm">
         <div className="container mx-auto flex justify-between items-center py-2 px-4">
           <div className="flex space-x-4">
-            <a href="#" className="text-gray-600 hover:text-gray-800">About Us</a>
-            <a href="#" className="text-gray-600 hover:text-gray-800">Order Tracking</a>
-            <a href="#" className="text-gray-600 hover:text-gray-800">Contact Us</a>
-            <a href="#" className="text-gray-600 hover:text-gray-800">FAQs</a>
+            {/* Top Navbar Dropdown for Mobile/Tablet */}
+            <div className="md:hidden">
+              <button onClick={toggleTopMenu} className="text-gray-600 hover:text-gray-800 focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+              </button>
+            </div>
+            {/* Top Navbar Links */}
+            <div className={`space-x-4 hidden md:flex`}>
+              <a href="#" className="text-gray-600 hover:text-gray-800">About Us</a>
+              <a href="#" className="text-gray-600 hover:text-gray-800">Order Tracking</a>
+              <a href="#" className="text-gray-600 hover:text-gray-800">Contact Us</a>
+              <a href="#" className="text-gray-600 hover:text-gray-800">FAQs</a>
+            </div>
           </div>
           <div className="flex space-x-4 items-center">
             <div className="relative">
@@ -34,6 +50,15 @@ const App = () => {
             </div>
           </div>
         </div>
+        {/* Dropdown Menu for Top Navbar in Mobile/Tablet View */}
+        <div className={`md:hidden ${isTopMenuOpen ? 'block' : 'hidden'}`}>
+          <nav className="px-4 py-4 space-y-1 bg-gray-100">
+            <a href="#" className="block text-gray-700 hover:text-blue-600">About Us</a>
+            <a href="#" className="block text-gray-700 hover:text-blue-600">Order Tracking</a>
+            <a href="#" className="block text-gray-700 hover:text-blue-600">Contact Us</a>
+            <a href="#" className="block text-gray-700 hover:text-blue-600">FAQs</a>
+          </nav>
+        </div>
       </div>
 
       {/* Main Navbar */}
@@ -42,16 +67,16 @@ const App = () => {
           <div className="text-2xl font-bold text-blue-600">
             <a href="#">Planet</a>
           </div>
-          {/* Hamburger Menu Icon */}
+          {/* Hamburger Menu Icon for Main Navbar */}
           <div className="md:hidden">
-            <button onClick={toggleMenu} className="text-gray-700 hover:text-blue-600 focus:outline-none">
+            <button onClick={toggleMainMenu} className="text-gray-700 hover:text-blue-600 focus:outline-none">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
               </svg>
             </button>
           </div>
           {/* Main Navigation Links */}
-          <nav className={`space-x-6 ${isOpen ? 'block' : 'hidden'} md:flex`}>
+          <nav className={`space-x-6 ${isMainMenuOpen ? 'block' : 'hidden'} md:flex`}>
             <a href="#" className="text-gray-700 hover:text-blue-600 block md:inline-block">Home</a>
             <a href="#" className="text-gray-700 hover:text-blue-600 block md:inline-block">Shop</a>
             <a href="#" className="text-gray-700 hover:text-blue-600 block md:inline-block">Products</a>
@@ -71,8 +96,8 @@ const App = () => {
             </div>
           </div>
         </div>
-        {/* Dropdown Menu for Mobile */}
-        <div className={`md:hidden ${isOpen ? 'block' : 'hidden'}`}>
+        {/* Dropdown Menu for Main Navbar in Mobile/Tablet View */}
+        <div className={`md:hidden ${isMainMenuOpen ? 'block' : 'hidden'}`}>
           <nav className="px-4 py-4 space-y-1 bg-gray-100">
             <a href="#" className="block text-gray-700 hover:text-blue-600">Home</a>
             <a href="#" className="block text-gray-700 hover:text-blue-600">Shop</a>
