@@ -19,8 +19,9 @@ const ProductProvider = ({ children }) => {
 
       const initializedProducts = data.map(product => ({
         ...product,
-        currency: 'USD', 
-        price: product.price * conversionRates[currency] // Convert price to selected currency
+        basePrice: product.price, // Store original price in USD
+        price: product.price * conversionRates[currency], // Convert price to selected currency for display
+        currency: currency,
       }));
 
       const productsWithFeatures = assignFeatures(initializedProducts);
@@ -28,12 +29,12 @@ const ProductProvider = ({ children }) => {
     };
 
     fetchProducts();
-  }, [currency]); // Re-fetch products when currency changes
+  }, [currency]);
 
   const assignFeatures = (products) => {
     return products.map((product, index) => {
       const randomNum = index % 6;
-      switch(randomNum) {
+      switch (randomNum) {
         case 0:
           return { ...product, isNew: true };
         case 1:
@@ -49,7 +50,7 @@ const ProductProvider = ({ children }) => {
   const convertCurrency = (newCurrency) => {
     setProducts(products.map(product => ({
       ...product,
-      price: parseFloat((product.price / conversionRates[product.currency] * conversionRates[newCurrency]).toFixed(2)),
+      price: parseFloat((product.basePrice * conversionRates[newCurrency]).toFixed(2)), // Use basePrice for conversion
       currency: newCurrency,
     })));
     setCurrency(newCurrency);
