@@ -9,7 +9,7 @@ import CartProvider from './contexts/CartContext';  // Import CartProvider
 
 const App = () => {
   return (
-    <div className='overflow-hidden'>
+    <div className='overflow-hidden bg-gray-50'>
       <CartProvider>  {/* Wrap the app with CartProvider */}
         <Router>
           <Header />
