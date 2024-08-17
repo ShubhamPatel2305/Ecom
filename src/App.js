@@ -4,27 +4,25 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 //import all pages
 import Home from './pages/Home';
 import ProductDetails from './pages/ProductDetails';
-import Sidebar from './components/Sidebar';
-import Product from './components/Product';
-import Hero from './components/Hero';
 import Footer from './components/Footer';
 import Header from './components/Header';
-import CartItem from './components/CartItem'; 
-import CategorySection from './components/CategorySection';
+import Cart from './components/Cart';
 
 const App = () => {
   return <div className='overflow-hidden'>
     <Router>
       <Header />
-      <Hero />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/product/:id' element={<ProductDetails />} />
+        {/* //route for card */}
+        <Route path='/cart' element={< Cart />} />
       </Routes>
-      <Sidebar />
       <Footer />
     </Router>
   </div>;
+
+<script src="../path/to/flowbite/dist/flowbite.min.js"></script>
 };
 
 export default App;
