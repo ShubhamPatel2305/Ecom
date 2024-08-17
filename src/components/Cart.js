@@ -1,10 +1,16 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { CartContext } from '../contexts/CartContext';
 import { ProductContext } from '../contexts/ProductContext';
 
 const Cart = () => {
   const { cartItems, removeFromCart, updateQuantity } = useContext(CartContext);
   const { currency, conversionRates } = useContext(ProductContext);
+  const [couponCode, setCouponCode] = useState('');
+  const [discount, setDiscount] = useState(0);
+  const [isCouponApplied, setIsCouponApplied] = useState(false); // State to track if the coupon is applied
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const [toastType, setToastType] = useState('success');
 
   const deliveryThresholdUSD = 120;
   const deliveryChargeUSD = 10;
@@ -23,11 +29,22 @@ const Cart = () => {
 
   const calculateTotal = () => {
     const orderAmount = parseFloat(calculateOrderAmount());
-    if (orderAmount >= deliveryThreshold) {
-      return orderAmount.toFixed(2);
-    } else {
-      return (orderAmount + deliveryCharge).toFixed(2);
+    let total = orderAmount;
+
+    if (orderAmount < deliveryThreshold) {
+      total += deliveryCharge;
     }
+
+    if (discount > 0) {
+      total *= (1 - discount / 100);
+    }
+
+    return total.toFixed(2);
+  };
+
+  const calculateDiscountAmount = () => {
+    const orderAmount = parseFloat(calculateOrderAmount());
+    return discount > 0 ? (orderAmount * discount / 100).toFixed(2) : '0.00';
   };
 
   const formatPrice = (price) => {
@@ -38,10 +55,33 @@ const Cart = () => {
     }
   };
 
+  const handleApplyCoupon = () => {
+    if (couponCode === 'INDIAISGREAT') {
+      setDiscount(30);
+      setIsCouponApplied(true); // Set coupon as applied
+      setToastMessage('Coupon code applied! 30% discount.');
+      setToastType('success');
+    } else {
+      setDiscount(0);
+      setToastMessage('Enter correct coupon code.');
+      setToastType('error');
+    }
+    setShowToast(true);
+    setTimeout(() => {
+      setShowToast(false);
+    }, 3000);
+  };
+
   return (
     <section className="bg-white py-8 antialiased dark:bg-gray-900 md:py-28">
       <div className="mx-auto max-w-screen-xl px-4 2xl:px-0">
         <h2 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Shopping Cart</h2>
+
+        {showToast && (
+          <div className={`fixed top-16 left-1/2 transform -translate-x-1/2 bg-${toastType === 'success' ? 'green' : 'red'}-500 text-white py-2 px-4 rounded-md shadow-md z-50`}>
+            {toastMessage}
+          </div>
+        )}
 
         <div className="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">
           <div className="mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl">
@@ -67,9 +107,14 @@ const Cart = () => {
                           <div className="flex items-center">
                             <button
                               type="button"
-                              onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                              onClick={() => {
+                                if (item.quantity === 1) {
+                                  removeFromCart(item.id);
+                                } else {
+                                  updateQuantity(item.id, item.quantity - 1);
+                                }
+                              }}
                               className="inline-flex h-5 w-5 items-center justify-center rounded-md border border-red-500 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
-                              disabled={item.quantity === 1}
                             >
                               <svg className="h-2.5 w-2.5 text-red-700 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h16" />
@@ -153,15 +198,41 @@ const Cart = () => {
                       )}
                     </dd>
                   </dl>
+
+                  {discount > 0 && (
+                    <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
+                      <dt className="text-base font-bold text-gray-900 dark:text-white">Coupon Discount</dt>
+                      <dd className="text-base font-bold text-green-600 dark:text-green-400">- {formatPrice(calculateDiscountAmount())}</dd>
+                    </dl>
+                  )}
+
                   <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
                     <dt className="text-base font-bold text-gray-900 dark:text-white">Total</dt>
                     <dd className="text-base font-bold text-gray-900 dark:text-white">{formatPrice(calculateTotal())}</dd>
                   </dl>
                 </div>
 
+                <div className="flex items-center justify-between mt-4">
+                  <input
+                    type="text"
+                    placeholder="Enter Coupon Code"
+                    value={couponCode}
+                    onChange={(e) => setCouponCode(e.target.value)}
+                    className="w-2/3 p-2 border rounded-md me-4"
+                    disabled={isCouponApplied} // Disable input if coupon is applied
+                  />
+                  <button
+                    onClick={handleApplyCoupon}
+                    className="w-1/3 bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 ms-4"
+                    disabled={isCouponApplied} // Disable button if coupon is applied
+                  >
+                    {isCouponApplied ? 'Applied' : 'Apply'}
+                  </button>
+                </div>
+
                 <a
                   href="#"
-                  className="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                  className="mt-4 flex w-full items-center justify-center rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
                   Proceed to Checkout
                 </a>
               </div>
