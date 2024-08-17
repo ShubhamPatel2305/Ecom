@@ -1,13 +1,13 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { CartContext } from '../contexts/CartContext';
 import { ProductContext } from '../contexts/ProductContext';
 
 const Cart = () => {
   const { cartItems, removeFromCart, updateQuantity } = useContext(CartContext);
   const { currency, conversionRates } = useContext(ProductContext);
-  const [couponCode, setCouponCode] = useState('');
-  const [discount, setDiscount] = useState(0);
-  const [isCouponApplied, setIsCouponApplied] = useState(false); // State to track if the coupon is applied
+  const [couponCode, setCouponCode] = useState(localStorage.getItem('couponCode') || '');
+  const [discount, setDiscount] = useState(parseFloat(localStorage.getItem('discount')) || 0);
+  const [isCouponApplied, setIsCouponApplied] = useState(localStorage.getItem('isCouponApplied') === 'true');
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const [toastType, setToastType] = useState('success');
@@ -18,6 +18,13 @@ const Cart = () => {
   const conversionRate = conversionRates[currency] || 1;
   const deliveryThreshold = deliveryThresholdUSD * conversionRate;
   const deliveryCharge = deliveryChargeUSD * conversionRate;
+
+  useEffect(() => {
+    // Ensure values in localStorage match the current state
+    localStorage.setItem('couponCode', couponCode);
+    localStorage.setItem('discount', discount.toString());
+    localStorage.setItem('isCouponApplied', isCouponApplied.toString());
+  }, [couponCode, discount, isCouponApplied]);
 
   const calculateOrderAmount = () => {
     return cartItems.reduce((total, item) => {
@@ -58,11 +65,12 @@ const Cart = () => {
   const handleApplyCoupon = () => {
     if (couponCode === 'INDIAISGREAT') {
       setDiscount(30);
-      setIsCouponApplied(true); // Set coupon as applied
+      setIsCouponApplied(true);
       setToastMessage('Coupon code applied! 30% discount.');
       setToastType('success');
     } else {
       setDiscount(0);
+      setIsCouponApplied(false);
       setToastMessage('Enter correct coupon code.');
       setToastType('error');
     }
@@ -72,13 +80,28 @@ const Cart = () => {
     }, 3000);
   };
 
+  const handleRemoveCoupon = () => {
+    setDiscount(0);
+    setCouponCode('');
+    setIsCouponApplied(false);
+    setToastMessage('Coupon code removed.');
+    setToastType('info');
+    setShowToast(true);
+    setTimeout(() => {
+      setShowToast(false);
+    }, 3000);
+    localStorage.removeItem('couponCode');
+    localStorage.removeItem('discount');
+    localStorage.removeItem('isCouponApplied');
+  };
+
   return (
-    <section className="bg-white py-8 antialiased dark:bg-gray-900 md:py-28">
+    <section className="bg-gray-50 py-8 antialiased dark:bg-gray-900 md:py-28">
       <div className="mx-auto max-w-screen-xl px-4 2xl:px-0">
         <h2 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Shopping Cart</h2>
 
         {showToast && (
-          <div className={`fixed top-16 left-1/2 transform -translate-x-1/2 bg-${toastType === 'success' ? 'green' : 'red'}-500 text-white py-2 px-4 rounded-md shadow-md z-50`}>
+          <div className={`fixed top-16 left-1/2 transform -translate-x-1/2 bg-${toastType === 'success' ? 'green' : toastType === 'error' ? 'red' : 'blue'}-500 text-white py-2 px-4 rounded-md shadow-md z-50`}>
             {toastMessage}
           </div>
         )}
@@ -221,13 +244,25 @@ const Cart = () => {
                     className="w-2/3 p-2 border rounded-md me-4"
                     disabled={isCouponApplied} // Disable input if coupon is applied
                   />
-                  <button
-                    onClick={handleApplyCoupon}
-                    className="w-1/3 bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 ms-4"
-                    disabled={isCouponApplied} // Disable button if coupon is applied
-                  >
-                    {isCouponApplied ? 'Applied' : 'Apply'}
-                  </button>
+                  <div className="flex items-center w-1/3">
+                    <button
+                      onClick={handleApplyCoupon}
+                      className={`w-full py-2 px-4 rounded-md ${
+                        isCouponApplied ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-600 hover:bg-green-700 text-white'
+                      }`}
+                      disabled={isCouponApplied} // Disable button if coupon is applied
+                    >
+                      {isCouponApplied ? 'Applied' : 'Apply'}
+                    </button>
+                    {isCouponApplied && (
+                      <button
+                        onClick={handleRemoveCoupon}
+                        className="ml-2 bg-red-500 text-white py-2 px-3 rounded-md hover:bg-red-600"
+                      >
+                        ×
+                      </button>
+                    )}
+                  </div>
                 </div>
 
                 <a

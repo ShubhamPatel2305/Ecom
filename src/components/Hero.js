@@ -76,7 +76,7 @@ const Hero = () => {
   };
 
   return (
-    <div className='bg-gray-100 pt-24'>
+    <div className='bg-gray-50 pt-24'>
       <main className="container mx-auto px-4 py-10">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 bg-gray-200 p-10 flex items-center justify-between">

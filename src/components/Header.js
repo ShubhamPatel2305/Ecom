@@ -54,7 +54,7 @@ const Header = () => {
     >
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto px-4 py-2.5">
         <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-          <span className="self-center text-4xl font-bold text-blue-600">Shopify</span>
+          <span className="self-center text-4xl font-bold text-blue-600">Savvy</span>
         </a>
         <button
           onClick={toggleMainMenu}
