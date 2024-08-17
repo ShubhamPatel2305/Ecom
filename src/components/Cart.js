@@ -1,10 +1,11 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { CartContext } from '../contexts/CartContext';
 import { ProductContext } from '../contexts/ProductContext';
+import Product from './Product'; // Import the Product component
 
 const Cart = () => {
   const { cartItems, removeFromCart, updateQuantity } = useContext(CartContext);
-  const { currency, conversionRates } = useContext(ProductContext);
+  const { products, currency, conversionRates } = useContext(ProductContext);
   const [couponCode, setCouponCode] = useState(localStorage.getItem('couponCode') || '');
   const [discount, setDiscount] = useState(parseFloat(localStorage.getItem('discount')) || 0);
   const [isCouponApplied, setIsCouponApplied] = useState(localStorage.getItem('isCouponApplied') === 'true');
@@ -94,6 +95,12 @@ const Cart = () => {
     localStorage.removeItem('discount');
     localStorage.removeItem('isCouponApplied');
   };
+
+  // Filter products that are not in the cart
+  const filteredProducts = products.filter(product => !cartItems.some(item => item.id === product.id));
+  
+  // If all products are in the cart, select a few randomly
+  const recommendedProducts = filteredProducts.length > 0 ? filteredProducts : products.slice(0, 3);
 
   return (
     <section className="bg-gray-50 py-8 antialiased dark:bg-gray-900 md:py-28">
@@ -275,6 +282,18 @@ const Cart = () => {
           </div>
         </div>
       </div>
+
+      {/* People Also Bought Section */}
+      {cartItems.length > 0 && recommendedProducts.length > 0 && (
+        <div className="mt-12 sm:ms-6 sm:me-6 ">
+          <h3 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">People also bought</h3>
+          <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 mt-6 mx-8">
+            {recommendedProducts.slice(0, 3).map((product) => (
+              <Product key={product.id} product={product} formatPrice={formatPrice} trimProductTitle={(title) => title.substring(0, 20) + '...'} />
+            ))}
+          </div>
+        </div>
+      )}
     </section>
   );
 };

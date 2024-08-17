@@ -1,10 +1,21 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart, faFire } from '@fortawesome/free-solid-svg-icons';
-import { CartContext } from '../contexts/CartContext'; // Import CartContext
+import { CartContext } from '../contexts/CartContext';
 
 const Product = ({ product, formatPrice, trimProductTitle }) => {
-  const { addToCart } = useContext(CartContext); // Get the addToCart function from CartContext
+  const { addToCart } = useContext(CartContext);
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  const handleAddToCart = () => {
+    setIsAnimating(true);
+    addToCart(product);
+
+    // Reset animation state after the full sequence is done
+    setTimeout(() => {
+      setIsAnimating(false);
+    }, 1000); // Total duration of the animation
+  };
 
   return (
     <div
@@ -44,11 +55,32 @@ const Product = ({ product, formatPrice, trimProductTitle }) => {
         </div>
         <div className='mt-4'>
           <button 
-            onClick={() => addToCart(product)} // Add to cart when button is clicked
-            className='bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition w-full cart-button'
+            onClick={handleAddToCart}
+            className={`relative bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition w-full cart-button ${isAnimating ? 'animate' : ''}`}
+            style={{ overflow: 'hidden', position: 'relative', height: '2.5rem' }} // Maintain a consistent button height
           >
-            <FontAwesomeIcon icon={faShoppingCart} className="mr-2" />
-            Add to Cart
+            <span className='inline-flex items-center justify-center'>
+              <FontAwesomeIcon 
+                icon={faShoppingCart} 
+                className={`transition-all duration-1000 ${isAnimating ? 'move-icon' : 'opacity-0'}`} 
+                style={{ 
+                  left: isAnimating ? '80%' : '0', 
+                  position: isAnimating ? 'absolute' : 'absolute', 
+                  visibility: isAnimating ? 'visible' : 'hidden',
+                  fontSize: '1.5em'  // This will increase the size by 1.5 times
+                }} 
+              />
+            </span>
+            <span
+              className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${isAnimating ? 'opacity-0' : 'opacity-100'}`}
+            >
+              Add to Cart
+            </span>
+            <span
+              className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 delay-600 ${isAnimating ? 'opacity-100' : 'opacity-0'}`}
+            >
+              Added
+            </span>
           </button>
         </div>
       </div>
