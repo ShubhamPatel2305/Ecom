@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { ProductContext } from '../contexts/ProductContext';
 import Product from '../components/Product';
+import Hero from '../components/Hero';
 
 const Home = () => {
   const { products, currency } = useContext(ProductContext);
@@ -21,7 +22,9 @@ const Home = () => {
     return title.split(' ').slice(0, 5).join(' ') + (title.split(' ').length > 5 ? '...' : '');
   };
 
-  return (
+  return(
+  <div>
+    <Hero />
     <div className='container mx-auto bg-gray-100'>
       <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
         {filteredProducts.map((product) => (
@@ -33,6 +36,7 @@ const Home = () => {
           />
         ))}
       </div>
+    </div>
     </div>
   );
 };
