@@ -1,11 +1,13 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ProductContext } from '../contexts/ProductContext';
+import { CartContext } from '../contexts/CartContext'; // Import CartContext
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 
 const Header = () => {
   const { currency, convertCurrency } = useContext(ProductContext);
+  const { cartItems } = useContext(CartContext); // Get cart items from CartContext
   const [isTopMenuOpen, setIsTopMenuOpen] = useState(false);
   const [isMainMenuOpen, setIsMainMenuOpen] = useState(false);
   const [opacity, setOpacity] = useState(1);
@@ -84,10 +86,15 @@ const Header = () => {
           </ul>
         </div>
 
-        {/* Currency Dropdown */}
+        {/* Currency Dropdown and Cart Icon */}
         <div className="relative flex items-center space-x-4">
-          <Link to="/cart" className="text-gray-700 hover:text-blue-600">
+          <Link to="/cart" className="relative text-gray-700 hover:text-blue-600">
             <FontAwesomeIcon icon={faShoppingCart} className="w-5 h-5" />
+            {cartItems.length > 0 && (
+              <span className="absolute -top-2 -right-2 bg-blue-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                {cartItems.length}
+              </span>
+            )}
           </Link>
           <button
             onClick={toggleDropdown}

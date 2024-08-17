@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart, faFire } from '@fortawesome/free-solid-svg-icons';
+import { CartContext } from '../contexts/CartContext'; // Import CartContext
 
 const Product = ({ product, formatPrice, trimProductTitle }) => {
+  const { addToCart } = useContext(CartContext); // Get the addToCart function from CartContext
+
   return (
     <div
       key={product.id}
@@ -32,14 +35,18 @@ const Product = ({ product, formatPrice, trimProductTitle }) => {
           <a>
             <h2 className='font-bold text-xl mb-2 text-center hover:text-blue-700'>{trimProductTitle(product.title)}</h2>
           </a>
-          <p className='text-lg my-4 text-gray-900 font-semibold mb-2 text-center'>{formatPrice(product.price)}
+          <p className='text-lg my-4 text-gray-900 font-semibold mb-2 text-center'>
+            {formatPrice(product.price)}
             {product.originalPrice && (
               <span className='line-through text-gray-500 ml-2'>{formatPrice(product.originalPrice)}</span>
             )}
           </p>
         </div>
         <div className='mt-4'>
-          <button className='bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition w-full cart-button'>
+          <button 
+            onClick={() => addToCart(product)} // Add to cart when button is clicked
+            className='bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition w-full cart-button'
+          >
             <FontAwesomeIcon icon={faShoppingCart} className="mr-2" />
             Add to Cart
           </button>
