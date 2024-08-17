@@ -1,23 +1,33 @@
 import React, { useContext } from 'react';
 import { CartContext } from '../contexts/CartContext';
-import { ProductContext } from '../contexts/ProductContext'; // Import ProductContext for currency conversion
+import { ProductContext } from '../contexts/ProductContext';
 
 const Cart = () => {
   const { cartItems, removeFromCart, updateQuantity } = useContext(CartContext);
-  const { currency, convertCurrency } = useContext(ProductContext); // Get the current currency and conversion function from ProductContext
+  const { currency, conversionRates } = useContext(ProductContext);
 
-  const conversionRates = {
-    USD: 1,
-    EUR: 0.85,
-    INR: 74,
-  };
+  const deliveryThresholdUSD = 120;
+  const deliveryChargeUSD = 10;
 
-  const calculateTotal = () => {
+  const conversionRate = conversionRates[currency] || 1;
+  const deliveryThreshold = deliveryThresholdUSD * conversionRate;
+  const deliveryCharge = deliveryChargeUSD * conversionRate;
+
+  const calculateOrderAmount = () => {
     return cartItems.reduce((total, item) => {
-      const itemPrice = item.price / conversionRates[item.currency] * conversionRates[currency]; // Convert the price to the selected currency
+      const itemPrice = item.price / conversionRates[item.currency] * conversionRates[currency];
       const finalPrice = item.discount ? itemPrice * (1 - item.discount / 100) : itemPrice;
       return total + finalPrice * item.quantity;
     }, 0).toFixed(2);
+  };
+
+  const calculateTotal = () => {
+    const orderAmount = parseFloat(calculateOrderAmount());
+    if (orderAmount >= deliveryThreshold) {
+      return orderAmount.toFixed(2);
+    } else {
+      return (orderAmount + deliveryCharge).toFixed(2);
+    }
   };
 
   const formatPrice = (price) => {
@@ -40,7 +50,7 @@ const Cart = () => {
                 <p className="text-gray-500 dark:text-gray-400">Your cart is empty.</p>
               ) : (
                 cartItems.map((item) => {
-                  const itemPrice = item.price / conversionRates[item.currency] * conversionRates[currency]; // Convert the price to the selected currency
+                  const itemPrice = item.price / conversionRates[item.currency] * conversionRates[currency];
                   const originalPrice = itemPrice.toFixed(2);
                   const discountedPrice = item.discount
                     ? (itemPrice * (1 - item.discount / 100)).toFixed(2)
@@ -73,7 +83,7 @@ const Cart = () => {
                             />
                             <button
                               type="button"
-                              onClick={() => updateQuantity(item.id, item.quantity + 1)}  
+                              onClick={() => updateQuantity(item.id, item.quantity + 1)}
                               className="inline-flex h-5 w-5 items-center justify-center rounded-md border border-green-500 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
                             >
                               <svg className="h-2.5 w-2.5 text-green-700 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
@@ -124,22 +134,38 @@ const Cart = () => {
           </div>
 
           <div className="mx-auto mt-6 max-w-4xl flex-1 space-y-6 lg:mt-0 lg:w-full ">
-            <div className="space-y-4 rounded-lg border border-gray-200 bg-gray-100 p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6">
-              <p className="text-xl font-semibold text-gray-900 dark:text-white">Order summary</p>
+            {cartItems.length > 0 && (
+              <div className="space-y-4 rounded-lg border border-gray-200 bg-gray-100 p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6">
+                <p className="text-xl font-semibold text-gray-900 dark:text-white">Order summary</p>
 
-              <div className="space-y-4">
-                <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
-                  <dt className="text-base font-bold text-gray-900 dark:text-white">Total</dt>
-                  <dd className="text-base font-bold text-gray-900 dark:text-white">{formatPrice(calculateTotal())}</dd>
-                </dl>
+                <div className="space-y-4">
+                  <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
+                    <dt className="text-base font-bold text-gray-900 dark:text-white">Order Amount</dt>
+                    <dd className="text-base font-bold text-gray-900 dark:text-white">{formatPrice(calculateOrderAmount())}</dd>
+                  </dl>
+                  <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
+                    <dt className="text-base font-bold text-gray-900 dark:text-white">Delivery Charges</dt>
+                    <dd className="text-base font-bold text-gray-900 dark:text-white">
+                      {parseFloat(calculateOrderAmount()) >= deliveryThreshold.toFixed(2) ? (
+                        <span className="line-through">{formatPrice(deliveryCharge)}</span>
+                      ) : (
+                        formatPrice(deliveryCharge)
+                      )}
+                    </dd>
+                  </dl>
+                  <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
+                    <dt className="text-base font-bold text-gray-900 dark:text-white">Total</dt>
+                    <dd className="text-base font-bold text-gray-900 dark:text-white">{formatPrice(calculateTotal())}</dd>
+                  </dl>
+                </div>
+
+                <a
+                  href="#"
+                  className="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                  Proceed to Checkout
+                </a>
               </div>
-
-              <a
-                href="#"
-                className="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                Proceed to Checkout
-              </a>
-            </div>
+            )}
           </div>
         </div>
       </div>
