@@ -1,16 +1,31 @@
 import React, { useContext } from 'react';
 import { CartContext } from '../contexts/CartContext';
+import { ProductContext } from '../contexts/ProductContext'; // Import ProductContext for currency conversion
 
 const Cart = () => {
   const { cartItems, removeFromCart, updateQuantity } = useContext(CartContext);
+  const { currency, convertCurrency } = useContext(ProductContext); // Get the current currency and conversion function from ProductContext
+
+  const conversionRates = {
+    USD: 1,
+    EUR: 0.85,
+    INR: 74,
+  };
 
   const calculateTotal = () => {
     return cartItems.reduce((total, item) => {
-      const finalPrice = item.discount
-        ? item.price * (1 - item.discount / 100)
-        : item.price;
+      const itemPrice = item.price / conversionRates[item.currency] * conversionRates[currency]; // Convert the price to the selected currency
+      const finalPrice = item.discount ? itemPrice * (1 - item.discount / 100) : itemPrice;
       return total + finalPrice * item.quantity;
     }, 0).toFixed(2);
+  };
+
+  const formatPrice = (price) => {
+    if (currency === 'INR') {
+      return new Intl.NumberFormat('en-IN', { style: 'currency', currency, minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(price);
+    } else {
+      return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(price);
+    }
   };
 
   return (
@@ -25,9 +40,10 @@ const Cart = () => {
                 <p className="text-gray-500 dark:text-gray-400">Your cart is empty.</p>
               ) : (
                 cartItems.map((item) => {
-                  const originalPrice = item.price;
+                  const itemPrice = item.price / conversionRates[item.currency] * conversionRates[currency]; // Convert the price to the selected currency
+                  const originalPrice = itemPrice.toFixed(2);
                   const discountedPrice = item.discount
-                    ? (item.price * (1 - item.discount / 100)).toFixed(2)
+                    ? (itemPrice * (1 - item.discount / 100)).toFixed(2)
                     : originalPrice;
 
                   return (
@@ -42,10 +58,10 @@ const Cart = () => {
                             <button
                               type="button"
                               onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                              className="inline-flex h-5 w-5 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
+                              className="inline-flex h-5 w-5 items-center justify-center rounded-md border border-red-500 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
                               disabled={item.quantity === 1}
                             >
-                              <svg className="h-2.5 w-2.5 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
+                              <svg className="h-2.5 w-2.5 text-red-700 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h16" />
                               </svg>
                             </button>
@@ -57,21 +73,21 @@ const Cart = () => {
                             />
                             <button
                               type="button"
-                              onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                              className="inline-flex h-5 w-5 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
+                              onClick={() => updateQuantity(item.id, item.quantity + 1)}  
+                              className="inline-flex h-5 w-5 items-center justify-center rounded-md border border-green-500 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
                             >
-                              <svg className="h-2.5 w-2.5 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                              <svg className="h-2.5 w-2.5 text-green-700 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 1v16M1 9h16" />
                               </svg>
                             </button>
                           </div>
                           <div className="text-end md:order-4 md:w-32">
                             <p className="text-base font-bold text-gray-900 dark:text-white">
-                              ${discountedPrice * item.quantity}
+                              {formatPrice(discountedPrice * item.quantity)}
                             </p>
                             {item.discount && (
                               <p className="text-sm text-gray-500 dark:text-gray-400 line-through">
-                                ${originalPrice * item.quantity}
+                                {formatPrice(originalPrice * item.quantity)}
                               </p>
                             )}
                           </div>
@@ -114,7 +130,7 @@ const Cart = () => {
               <div className="space-y-4">
                 <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
                   <dt className="text-base font-bold text-gray-900 dark:text-white">Total</dt>
-                  <dd className="text-base font-bold text-gray-900 dark:text-white">${calculateTotal()}</dd>
+                  <dd className="text-base font-bold text-gray-900 dark:text-white">{formatPrice(calculateTotal())}</dd>
                 </dl>
               </div>
 
