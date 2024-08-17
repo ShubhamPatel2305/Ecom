@@ -4,18 +4,23 @@ export const ProductContext = createContext();
 
 const ProductProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
-  const [currency, setCurrency] = useState('USD');
+  const [currency, setCurrency] = useState(() => localStorage.getItem('currency') || 'USD');
 
-  // Fetch products
+  const conversionRates = {
+    USD: 1,
+    EUR: 0.85,
+    INR: 74,
+  };
+
   useEffect(() => {
     const fetchProducts = async () => {
       const response = await fetch('https://fakestoreapi.com/products');
       const data = await response.json();
 
-      // Initialize the currency to USD for all products
       const initializedProducts = data.map(product => ({
         ...product,
-        currency: 'USD',
+        currency: 'USD', 
+        price: product.price * conversionRates[currency] // Convert price to selected currency
       }));
 
       const productsWithFeatures = assignFeatures(initializedProducts);
@@ -23,7 +28,7 @@ const ProductProvider = ({ children }) => {
     };
 
     fetchProducts();
-  }, []);
+  }, [currency]); // Re-fetch products when currency changes
 
   const assignFeatures = (products) => {
     return products.map((product, index) => {
@@ -34,17 +39,11 @@ const ProductProvider = ({ children }) => {
         case 1:
           return { ...product, isHot: true };
         case 2:
-          return { ...product, discount: Math.floor(Math.random() * 21) + 10 }; // Assign a random discount between 10% and 30%
+          return { ...product, discount: Math.floor(Math.random() * 21) + 10 }; 
         default:
-          return product; // No feature (null)
+          return product; 
       }
     });
-  };
-
-  const conversionRates = {
-    USD: 1,
-    EUR: 0.85,
-    INR: 74,
   };
 
   const convertCurrency = (newCurrency) => {
@@ -54,10 +53,11 @@ const ProductProvider = ({ children }) => {
       currency: newCurrency,
     })));
     setCurrency(newCurrency);
+    localStorage.setItem('currency', newCurrency);
   };
 
   return (
-    <ProductContext.Provider value={{ products, currency, convertCurrency }}>
+    <ProductContext.Provider value={{ products, currency, convertCurrency, conversionRates }}>
       {children}
     </ProductContext.Provider>
   );

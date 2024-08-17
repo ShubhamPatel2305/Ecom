@@ -25,7 +25,7 @@ const Home = () => {
   return(
   <div>
     <Hero />
-    <div className='container mx-auto bg-gray-100'>
+    <div className='container mx-auto bg-gray-50'>
       <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
         {filteredProducts.map((product) => (
           <Product
