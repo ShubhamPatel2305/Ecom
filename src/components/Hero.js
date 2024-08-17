@@ -106,8 +106,8 @@ const Hero = () => {
                 )}
               </div>
             </div>
-            <div className="hidden xl:block flex-shrink-0">
-              <img src={img1} alt="Promotional Image" className="max-w-lg h-auto" />
+            <div className="hidden lg:block flex-shrink-0">
+              <img src={img1} alt="Promotional Image" className="max-w-md h-auto" />
             </div>
           </div>
           <div className="grid grid-cols-2 gap-4 lg:grid-cols-1 lg:col-span-1">
