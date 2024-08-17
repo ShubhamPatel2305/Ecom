@@ -22,9 +22,15 @@ const Home = () => {
     return title.split(' ').slice(0, 5).join(' ') + (title.split(' ').length > 5 ? '...' : '');
   };
 
+  const dynamicText = "Explore Our Exclusive Collection";
+
   return(
   <div>
     <Hero />
+    <div className="text-center pt-4 text-3xl font-semibold text-gray-800 dark:text-gray-100">
+        {dynamicText}
+    </div>
+    <hr className="mb-16 mt-4 h-px border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-25 dark:via-neutral-400" />
     <div className='container mx-auto bg-gray-50'>
       <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
         {filteredProducts.map((product) => (

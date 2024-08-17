@@ -63,6 +63,16 @@ const Cart = () => {
     }
   };
 
+  //code for handlecheckout to display a toast at top center of page saying cart updated successfully
+  const handleCheckout = () => {
+    setToastMessage('Cart updated successfully!');
+    setToastType('success');
+    setShowToast(true);
+    setTimeout(() => {
+      setShowToast(false);
+    }, 3000);
+  };
+
   const handleApplyCoupon = () => {
     if (couponCode === 'INDIAISGREAT') {
       setDiscount(30);
@@ -274,7 +284,7 @@ const Cart = () => {
 
                 <a
                   href="#"
-                  className="mt-4 flex w-full items-center justify-center rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                  className="mt-4 flex w-full items-center justify-center rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800" onClick={handleCheckout}>
                   Proceed to Checkout
                 </a>
               </div>
@@ -286,8 +296,8 @@ const Cart = () => {
       {/* People Also Bought Section */}
       {cartItems.length > 0 && recommendedProducts.length > 0 && (
         <div className="mt-12 sm:ms-6 sm:me-6 ">
-          <h3 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">People also bought</h3>
-          <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 mt-6 mx-8">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white sm:text-2xl">People also bought</h2>
+          <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 mt-6 mx-">
             {recommendedProducts.slice(0, 3).map((product) => (
               <Product key={product.id} product={product} formatPrice={formatPrice} trimProductTitle={(title) => title.substring(0, 20) + '...'} />
             ))}
