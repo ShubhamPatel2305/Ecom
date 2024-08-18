@@ -4,6 +4,7 @@ import { ProductContext } from '../contexts/ProductContext';
 import { CartContext } from '../contexts/CartContext'; // Import CartContext
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import logos from '../img/logo.png';
 
 const Header = () => {
   const { currency, convertCurrency } = useContext(ProductContext);
@@ -54,6 +55,7 @@ const Header = () => {
     >
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto px-4 py-2.5">
         <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+          <img src={logos} alt="Ecom" className="w-10 h-10" />
           <span className="self-center lg:text-3xl md:text-2xl text-xl font-bold text-blue-600">Ecom</span>
         </a>
         <button
