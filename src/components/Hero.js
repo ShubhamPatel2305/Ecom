@@ -1,8 +1,11 @@
 import React, { useContext, useState } from 'react';
 import { ProductContext } from '../contexts/ProductContext';
-import img1 from "../img/mainimg1.png";
 import img2 from "../img/mainimg2.png";
 import img3 from "../img/mainimg3.png";
+import img5 from "../img/mainimg5.png"; // Laptop background image
+import img6 from "../img/mainimg6.png"; // Tablet background image
+import img7 from "../img/mainimg7.png"; // Mobile background image
+import './hero.css';
 
 const Hero = () => {
   const { currency, conversionRates } = useContext(ProductContext);
@@ -79,11 +82,13 @@ const Hero = () => {
     <div className='bg-gray-50 pt-24'>
       <main className="container mx-auto px-4 py-10">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 bg-gray-200 p-10 flex items-center justify-between">
+          <div
+            className="lg:col-span-2 bg-gray-200 p-10 flex items-center justify-between min-h-[300px] hero-bg"
+          >
             <div className="flex flex-col justify-center">
               <h1 className="text-4xl font-bold text-gray-800 mb-6">Independence Day Sale 30% Off</h1>
               <p className="text-lg text-gray-600 mb-8">
-                Unlock incredible savings with our special offer! Enjoy 30% off on all products sitewide. 
+                Unlock incredible savings with our special offer! Enjoy 30% off on all products sitewide.
               </p>
               <div className="relative">
                 <button
@@ -106,9 +111,6 @@ const Hero = () => {
                 )}
               </div>
             </div>
-            <div className="hidden lg:block flex-shrink-0">
-              <img src={img1} alt="Promotional Image" className="max-w-md h-auto" />
-            </div>
           </div>
           <div className="grid grid-cols-2 gap-4 lg:grid-cols-1 lg:col-span-1">
             <div
@@ -117,7 +119,7 @@ const Hero = () => {
               onMouseLeave={handleMouseLeave}
             >
               <div>
-                <img src={img3} alt="Summer Travel Collection" className="w-36 h-36 mx-auto mb-4 object-cover" />
+                <img src={img3} alt="Summer Travel Collection" className="w-36 h-36 mx-auto mb-4 object-contain" />
                 <h2 className="text-xl font-semibold text-gray-800">Summer Travel Collection</h2>
                 <a href="#" className="text-blue-600 hover:underline">Discover Now</a>
               </div>
@@ -128,7 +130,7 @@ const Hero = () => {
               onMouseLeave={handleMouseLeave}
             >
               <div>
-                <img src={img2} alt="Get 30% Off On iPhone" className="w-36 h-36 mx-auto mb-4 object-cover" />
+                <img src={img2} alt="Get 30% Off On iPhone" className="w-36 h-36 mx-auto mb-4 object-contain" />
                 <h2 className="text-xl font-semibold text-gray-800">
                   Free delivery on orders above {currency} {freeDeliveryThreshold}
                 </h2>

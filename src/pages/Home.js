@@ -32,7 +32,7 @@ const Home = () => {
     </div>
     <hr className="mb-16 mt-4 h-px border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-25 dark:via-neutral-400" />
     <div className='container mx-auto bg-gray-50'>
-      <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
+      <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6'>
         {filteredProducts.map((product) => (
           <Product
             key={product.id}
