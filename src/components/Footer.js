@@ -1,4 +1,5 @@
 import React from 'react';
+import logos from "../img/logo.png";
 
 const Footer = () => {
   return <div>
@@ -9,7 +10,8 @@ const Footer = () => {
         <div class="md:flex md:justify-between">
           <div class="mb-6 md:mb-0">
               <a href="/" class="flex items-center">
-                  <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Ecom</span>
+              <img src={logos} alt="Ecom" className="w-10 h-10" />
+                <span className="self-center px-2 lg:text-3xl md:text-2xl text-xl font-bold text-blue-600">Ecom</span>
               </a>
           </div>
           <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
