@@ -221,16 +221,16 @@ const Cart = () => {
           <div className="mx-auto mt-6 max-w-4xl flex-1 space-y-6 lg:mt-0 lg:w-full ">
             {cartItems.length > 0 && (
               <div className="space-y-4 rounded-lg border border-gray-200 bg-gray-100 p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6">
-                <p className="text-xl font-semibold text-gray-900 dark:text-white">Order summary</p>
+                <p className="text-lg font-semibold text-gray-900 dark:text-white">Order summary</p>
 
                 <div className="space-y-4">
                   <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
-                    <dt className="text-base font-bold text-gray-900 dark:text-white">Order Amount</dt>
-                    <dd className="text-base font-bold text-gray-900 dark:text-white">{formatPrice(calculateOrderAmount())}</dd>
+                    <dt className=" lg:text-md md:text-md text-sm text-base font-bold text-gray-900 dark:text-white">Order Amount</dt>
+                    <dd className="lg:text-md md:text-md text-sm text-base font-bold text-gray-900 dark:text-white">{formatPrice(calculateOrderAmount())}</dd>
                   </dl>
                   <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
-                    <dt className="text-base font-bold text-gray-900 dark:text-white">Delivery Charges</dt>
-                    <dd className="text-base font-bold text-gray-900 dark:text-white">
+                    <dt className="lg:text-md md:text-md text-sm text-base font-bold text-gray-900 dark:text-white">Delivery Charges</dt>
+                    <dd className="lg:text-md md:text-md text-sm text-base font-bold text-gray-900 dark:text-white">
                       {parseFloat(calculateOrderAmount()) >= deliveryThreshold.toFixed(2) ? (
                         <span className="line-through">{formatPrice(deliveryCharge)}</span>
                       ) : (
@@ -241,13 +241,13 @@ const Cart = () => {
 
                   {discount > 0 && (
                     <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
-                      <dt className="text-base font-bold text-gray-900 dark:text-white">Coupon Discount</dt>
-                      <dd className="text-base font-bold text-green-600 dark:text-green-400">- {formatPrice(calculateDiscountAmount())}</dd>
+                      <dt className="lg:text-md md:text-md text-sm text-base font-bold text-gray-900 dark:text-white">Coupon Discount</dt>
+                      <dd className=" lg:text-md md:text-md text-sm text-base font-bold text-green-600 dark:text-green-400">- {formatPrice(calculateDiscountAmount())}</dd>
                     </dl>
                   )}
 
                   <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
-                    <dt className="text-base font-bold text-gray-900 dark:text-white">Total</dt>
+                    <dt className="lg:text-lg md:text-lg text-md text-base font-bold text-gray-900 dark:text-white">Total</dt>
                     <dd className="text-base font-bold text-gray-900 dark:text-white">{formatPrice(calculateTotal())}</dd>
                   </dl>
                 </div>
@@ -258,14 +258,14 @@ const Cart = () => {
                     placeholder="Enter Coupon Code"
                     value={couponCode}
                     onChange={(e) => setCouponCode(e.target.value)}
-                    className="w-2/3 p-2 border rounded-md me-4"
+                    className="w-2/3 p-2 border rounded-md me-4 lg:text-md md:text-md text-sm"
                     disabled={isCouponApplied} // Disable input if coupon is applied
                   />
                   <div className="flex items-center w-1/3">
                     <button
                       onClick={handleApplyCoupon}
                       className={`w-full py-2 px-4 rounded-md ${
-                        isCouponApplied ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-600 hover:bg-green-700 text-white'
+                        isCouponApplied ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-600 hover:bg-green-700 text-white lg:text-md md:text-md text-sm'
                       }`}
                       disabled={isCouponApplied} // Disable button if coupon is applied
                     >
@@ -274,7 +274,7 @@ const Cart = () => {
                     {isCouponApplied && (
                       <button
                         onClick={handleRemoveCoupon}
-                        className="ml-2 bg-red-500 text-white py-2 px-3 rounded-md hover:bg-red-600"
+                        className="ml-2 bg-red-500 text-white py-2 px-3 rounded-md hover:bg-red-600 "
                       >
                         ×
                       </button>
@@ -295,11 +295,12 @@ const Cart = () => {
 
       {/* People Also Bought Section */}
       {cartItems.length > 0 && recommendedProducts.length > 0 && (
-        <div className="mt-12 sm:ms-6 sm:me-6 ">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white sm:text-2xl">People also bought</h2>
-          <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 mt-6 mx-">
+        <div className="mt-12 mx-4">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white sm:text-3xl text-center">People also bought</h2>
+          <hr className="mb-16 mt-4 h-px border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-25 dark:via-neutral-400" />
+          <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 mt-6 mx-8">
             {recommendedProducts.slice(0, 3).map((product) => (
-              <Product key={product.id} product={product} formatPrice={formatPrice} trimProductTitle={(title) => title.substring(0, 20) + '...'} />
+              <Product key={product.id} product={product} formatPrice={formatPrice} trimProductTitle={(title) => title.substring(0, 30) + '...'} />
             ))}
           </div>
         </div>

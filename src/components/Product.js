@@ -44,9 +44,9 @@ const Product = ({ product, formatPrice, trimProductTitle }) => {
       <div className='p-4 flex-grow flex flex-col justify-between'>
         <div>
           <a>
-            <h2 className='font-bold text-xl mb-2 text-center hover:text-blue-700'>{trimProductTitle(product.title)}</h2>
+            <h2 className='font-medium lg:text:lg md:text-md text-sm mb-2 text-center hover:text-blue-700'>{trimProductTitle(product.title)}</h2>
           </a>
-          <p className='text-lg my-4 text-gray-900 font-semibold mb-2 text-center'>
+          <p className=' lg:text:lg md:text-md text-md my-4 text-gray-900 font-semibold mb-2 text-center'>
             {formatPrice(product.price)}
             {product.originalPrice && (
               <span className='line-through text-gray-500 ml-2'>{formatPrice(product.originalPrice)}</span>
@@ -56,7 +56,7 @@ const Product = ({ product, formatPrice, trimProductTitle }) => {
         <div className='mt-4'>
           <button 
             onClick={handleAddToCart}
-            className={`relative bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition w-full cart-button ${isAnimating ? 'animate' : ''}`}
+            className={`relative bg-blue-600 text-white py-2 px-3 rounded hover:bg-blue-700 transition w-full cart-button ${isAnimating ? 'animate' : ''}`}
             style={{ overflow: 'hidden', position: 'relative', height: '2.5rem' }} // Maintain a consistent button height
           >
             <span className='inline-flex items-center justify-center'>
@@ -72,7 +72,7 @@ const Product = ({ product, formatPrice, trimProductTitle }) => {
               />
             </span>
             <span
-              className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${isAnimating ? 'opacity-0' : 'opacity-100'}`}
+              className={` lg:text:lg md:text-md text-md absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${isAnimating ? 'opacity-0' : 'opacity-100'}`}
             >
               Add to Cart
             </span>

@@ -59,7 +59,7 @@ const CartItems = ({ item, currency, conversionRates, removeFromCart, updateQuan
         </div>
 
         <div className="w-full min-w-0 flex-1 space-y-4 md:order-2 md:max-w-md">
-          <a href="#" className="text-base font-medium text-gray-900 hover:underline dark:text-white">
+          <a href="#" className="lg:text-md md:text-md text-sm text-base font-medium text-gray-900 hover:underline dark:text-white">
             {item.title}
           </a>
           {item.discount && (
