@@ -77,13 +77,13 @@ const Header = () => {
         >
           <ul className="flex flex-col font-medium p-4 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:mt-0 md:text-sm md:border-0 md:bg-white md:space-x-8">
             <li>
-              <a href="#" className="block py-2 px-3 text-gray-700 hover:text-blue-600 md:bg-transparent">Shop</a>
+              <a href="/" className="block py-2 px-3 text-gray-700 hover:text-blue-600 md:bg-transparent">Shop</a>
             </li>
             <li>
-              <a href="#" className="block py-2 px-3 text-gray-700 hover:text-blue-600 md:bg-transparent">Products</a>
+              <a href="/" className="block py-2 px-3 text-gray-700 hover:text-blue-600 md:bg-transparent">Products</a>
             </li>
             <li>
-              <a href="#" className="block py-2 px-3 text-gray-700 hover:text-blue-600 md:bg-transparent">Contact</a>
+              <a href="/contact" className="block py-2 px-3 text-gray-700 hover:text-blue-600 md:bg-transparent">Contact</a>
             </li>
           </ul>
         </div>

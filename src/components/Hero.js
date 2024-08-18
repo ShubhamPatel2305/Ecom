@@ -121,7 +121,7 @@ const Hero = () => {
               <div>
                 <img src={img3} alt="Summer Travel Collection" className="w-36 h-36 mx-auto mb-4 object-contain" />
                 <h2 className="lg:text-lg md:text-md text-md font-semibold text-gray-800">Summer Travel Collection</h2>
-                <a href="#" className="text-blue-600 hover:underline lg:text-md md:text-sm text-sm">Discover Now</a>
+                <a href="/" className="text-blue-600 hover:underline lg:text-md md:text-sm text-sm">Discover Now</a>
               </div>
             </div>
             <div
