@@ -18,11 +18,11 @@ const Hero = () => {
   const freeDeliveryThreshold = (freeDeliveryThresholdUSD * conversionRate).toFixed(2); // Convert to selected currency
 
   const handleCopyCoupon = () => {
-    navigator.clipboard.writeText('SUMMER').then(() => {
+    navigator.clipboard.writeText('INDIAISGREAT').then(() => {
       setShowToast(true);
       setTimeout(() => {
         setShowToast(false);
-      }, 3000); // Hide the toast after 3 seconds
+      }, 2000); // Hide the toast after 3 seconds
     });
   };
 
@@ -86,13 +86,13 @@ const Hero = () => {
             className="lg:col-span-2 bg-gray-200 p-10 flex items-center justify-between min-h-[300px] hero-bg"
           >
             <div className="flex flex-col justify-center">
-              <h1 className="text-4xl font-bold text-gray-800 mb-6">Independence Day Sale 30% Off</h1>
-              <p className="text-lg text-gray-600 mb-8">
+              <h1 className="lg:text-3xl md:text-2xl text-2xl font-bold text-gray-800 mb-6">Independence Day Sale 30% Off</h1>
+              <p className="lg:text-lg md:text-md text-md text-gray-600 mb-8">
                 Unlock incredible savings with our special offer! Enjoy 30% off on all products sitewide.
               </p>
               <div className="relative">
                 <button
-                  className="bg-blue-600 text-white py-4 px-8 rounded-lg hover:bg-blue-700"
+                  className="bg-blue-600 text-white py-4 px-8 rounded-lg hover:bg-blue-700 lg:text-lg md:text-md text-sm"
                   onClick={handleCopyCoupon}
                   onMouseEnter={() => setIsHovered(true)}
                   onMouseLeave={() => setIsHovered(false)}
@@ -120,8 +120,8 @@ const Hero = () => {
             >
               <div>
                 <img src={img3} alt="Summer Travel Collection" className="w-36 h-36 mx-auto mb-4 object-contain" />
-                <h2 className="text-xl font-semibold text-gray-800">Summer Travel Collection</h2>
-                <a href="#" className="text-blue-600 hover:underline">Discover Now</a>
+                <h2 className="lg:text-lg md:text-md text-lg font-semibold text-gray-800">Summer Travel Collection</h2>
+                <a href="#" className="text-blue-600 hover:underline lg:text-md md:text-md text-sm">Discover Now</a>
               </div>
             </div>
             <div
@@ -131,10 +131,10 @@ const Hero = () => {
             >
               <div>
                 <img src={img2} alt="Get 30% Off On iPhone" className="w-36 h-36 mx-auto mb-4 object-contain" />
-                <h2 className="text-xl font-semibold text-gray-800">
+                <h2 className="lg:text-lg md:text-md text-lg font-semibold text-gray-800">
                   Free delivery on orders above {currency} {freeDeliveryThreshold}
                 </h2>
-                <a href="#" className="text-blue-600 hover:underline">Shop Now</a>
+                <a href="#" className="text-blue-600 hover:underline lg:text-md md:text-md text-sm  ">Shop Now</a>
               </div>
             </div>
           </div>
