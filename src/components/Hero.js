@@ -92,7 +92,7 @@ const Hero = () => {
               </p>
               <div className="relative">
                 <button
-                  className="bg-blue-600 text-white py-4 px-8 rounded-lg hover:bg-blue-700 lg:text-lg md:text-md text-sm"
+                  className="bg-blue-600 text-white py-3 px-8 rounded-lg hover:bg-blue-700 lg:text-lg md:text-md text-sm"
                   onClick={handleCopyCoupon}
                   onMouseEnter={() => setIsHovered(true)}
                   onMouseLeave={() => setIsHovered(false)}
