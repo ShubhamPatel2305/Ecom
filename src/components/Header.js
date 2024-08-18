@@ -96,54 +96,56 @@ const Header = () => {
               </span>
             )}
           </Link>
-          <button
-            onClick={toggleDropdown}
-            className="text-gray-700 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
-            type="button"
-          >
-            {currency} <svg className="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4"/>
-            </svg>
-          </button>
-          {isOpen && (
-            <div className="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 absolute right-0 mt-2">
-              <ul className="py-2 text-sm text-gray-700" aria-labelledby="dropdownNavbarLink">
-                <li>
-                  <button
-                    onClick={() => {
-                      convertCurrency('USD');
-                      setIsOpen(false);
-                    }}
-                    className="block w-full text-left px-4 py-2 hover:bg-gray-100"
-                  >
-                    USD
-                  </button>
-                </li>
-                <li>
-                  <button
-                    onClick={() => {
-                      convertCurrency('EUR');
-                      setIsOpen(false);
-                    }}
-                    className="block w-full text-left px-4 py-2 hover:bg-gray-100"
-                  >
-                    EUR
-                  </button>
-                </li>
-                <li>
-                  <button
-                    onClick={() => {
-                      convertCurrency('INR');
-                      setIsOpen(false);
-                    }}
-                    className="block w-full text-left px-4 py-2 hover:bg-gray-100"
-                  >
-                    INR
-                  </button>
-                </li>
-              </ul>
-            </div>
-          )}
+          <div className="relative">
+            <button
+              onClick={toggleDropdown}
+              className="text-gray-700 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+              type="button"
+            >
+              {currency} <svg className="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4"/>
+              </svg>
+            </button>
+            {isOpen && (
+              <div className="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 absolute right-0 mt-2">
+                <ul className="py-2 text-sm text-gray-700" aria-labelledby="dropdownNavbarLink">
+                  <li>
+                    <button
+                      onClick={() => {
+                        convertCurrency('USD');
+                        setIsOpen(false);
+                      }}
+                      className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                    >
+                      USD
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => {
+                        convertCurrency('EUR');
+                        setIsOpen(false);
+                      }}
+                      className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                    >
+                      EUR
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => {
+                        convertCurrency('INR');
+                        setIsOpen(false);
+                      }}
+                      className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                    >
+                      INR
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </nav>
