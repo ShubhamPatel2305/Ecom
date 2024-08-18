@@ -6,6 +6,7 @@ import Footer from './components/Footer';
 import Header from './components/Header';
 import Cart from './components/Cart';
 import CartProvider from './contexts/CartContext';  // Import CartProvider
+import { NotFound404 } from './pages/NotFound404';
 
 const App = () => {
   return (
@@ -17,6 +18,8 @@ const App = () => {
             <Route path='/' element={<Home />} />
             <Route path='/product/:id' element={<ProductDetails />} />
             <Route path='/cart' element={<Cart />} />
+            {/* //404 page link route */}
+            <Route path='*' element={<NotFound404 />} />
           </Routes>
           <Footer />
         </Router>
